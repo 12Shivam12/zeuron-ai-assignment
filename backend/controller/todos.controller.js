@@ -31,10 +31,9 @@ export const addTodo = async (req, res) => {
 }
 
 export const deleteTodo = async (req, res) => {
-    const _id = req.params.id;
-
+    const {id} = req.query
     try {
-        const deleteTodo = await Todo.findOneAndDelete(_id)
+        const deleteTodo = await Todo.findOneAndDelete({_id:id})
         if (deleteTodo) {
             return res.status(200).json({ message: "todo deleted successfully" })
         }

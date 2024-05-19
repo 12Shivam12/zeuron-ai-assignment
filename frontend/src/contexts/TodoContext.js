@@ -9,6 +9,7 @@ export const TodoContext = createContext({
             isCompleted:false
         }
     ],
+    isActive: false,
     addTodo: (todo) =>{
 
     },
