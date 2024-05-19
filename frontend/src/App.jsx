@@ -3,6 +3,7 @@ import { TodoProvider } from "./contexts/TodoContext";
 import TodoForm from "./components/TodoForm";
 import TodoItem from "./components/TodoItem";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Signup from './components/Signup'
 import Login from "./components/Login";
 import Navbar from "./components/Navbar";
 import Todos from "./components/Todos";
@@ -73,7 +74,7 @@ export default function App() {
     fetchData();
   }, []);
 
-  
+
 
   return (
     <>
@@ -84,9 +85,9 @@ export default function App() {
           <Navbar />
           <Routes>
             <Route path="/login" element={<Login />} />
-            {/* <Route path="/signup" element={<Signup/>}/> */}
+            <Route path="/" element={<Signup/>}/>
+            <Route path="/todos" element={<Todos todos={todos}/>}/>
           </Routes>
-          <Todos todos={todos}/>
         </TodoProvider>
       </BrowserRouter>
 

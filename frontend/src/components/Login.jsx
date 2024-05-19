@@ -7,7 +7,7 @@ const Login = () => {
 
   const [formData, setFormData] = useState({});
 
-  const [loading,setLoading] = useState(false)
+  const [loading, setLoading] = useState(false)
 
   const navigate = useNavigate();
 
@@ -16,30 +16,37 @@ const Login = () => {
   }
 
   const handleSubmit = async (e) => {
-    // e.preventDefault();
+    e.preventDefault();
 
-    // if (!formData.email || !formData.password) {
-    //   return dispatch(signInFailure('Please fill all the fields'))
-    // }
+    if (!formData.email || !formData.password) {
+      return dispatch(signInFailure('Please fill all the fields'))
+    }
 
-    // try {
-    //   dispatch(signInStart());
-    //   const res = await fetch('/api/auth/signin', {
-    //     method: 'POST',
-    //     headers: { 'Content-Type': 'application/json' },
-    //     body: JSON.stringify(formData)
-    //   });
-    //   const data = await res.json()
-    //   if (data.success === false) {
-    //     dispatch(signInFailure(data.message))
-    //   }
-    //   if (res.ok) {
-    //     dispatch(signInSuccess(data));
-    //     navigate('/')
-    //   }
-    // } catch (error) {
-    //   dispatch(signInFailure(error.message))
-    // }
+    try {
+      // dispatch(signInStart());
+      setLoading(true)
+      const res = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
+      const data = await res.json()
+      if (res.ok === false) {
+        // dispatch(signInFailure(data.message))
+        setLoading(false)
+        alert(data.message);
+      }
+      if (res.ok) {
+        // dispatch(signInSuccess(data));
+        setLoading(false)
+        navigate('/todos')
+      }
+    } catch (error) {
+      // dispatch(signInFailure(error.message))
+      setLoading(false);
+      alert(error.message)
+      console.log(error);
+    }
   }
 
   return (
@@ -47,8 +54,8 @@ const Login = () => {
       <div className="flex p-3 max-w-3xl mx-auto flex-col md:flex-row md:items-center gap-5" >
         {/* left side */}
         <div className="flex-1">
-          <Link to='/' className='font-bold dark:text-white text-4xl'>
-            <span className="px-2 py-1 bg-gradient-to-r from-green-300 via-green-700 to-black rounded-lg text-white">Todo</span>
+          <Link className='font-bold dark:text-white text-4xl'>
+            <span className="px-2 py-1 bg-gradient-to-r from-green-300 via-green-500 to-green-70 rounded-lg text-white">Todo</span>
             App
           </Link>
           <p className='text-sm mt-5'>
@@ -74,7 +81,7 @@ const Login = () => {
                 placeholder='***********'
                 id='password' />
             </div>
-            <Button gradientDuoTone='purpleToPink' type='submit' disabled={loading} >
+            <Button gradientDuoTone='purpleToPink' className="px-2 py-1 bg-gradient-to-r from-green-300 via-green-500 to-green-70 text-white" type='submit' disabled={loading}  >
               {
                 loading ? (
                   <> <Spinner size='sm' />
